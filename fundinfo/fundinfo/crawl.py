@@ -10,4 +10,5 @@ process = CrawlerProcess(get_project_settings())
 # process.crawl('futuresmanager')
 # process.crawl('collectasset')
 # process.crawl('secucollectasset')
+
 process.start()
