@@ -4,7 +4,6 @@ import json
 import re
 
 from fundinfo.items import FuturesManagerItem
-import tools
 
 
 class FuturesprodSpider(scrapy.Spider):
