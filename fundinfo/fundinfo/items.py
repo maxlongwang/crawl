@@ -144,3 +144,8 @@ class SecuCollectAssetItem(scrapy.Item):
     tzlx = scrapy.Field() #投资类型	
     yzzt = scrapy.Field() #运作状态	
     page=scrapy.Field()
+
+
+class ImageChinazItem(scrapy.Item):
+    image_urls=scrapy.Field()
+    images=scrapy.Field()

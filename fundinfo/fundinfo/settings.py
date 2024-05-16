@@ -37,10 +37,10 @@ ROBOTSTXT_OBEY = False
 #TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
+# DEFAULT_REQUEST_HEADERS = {
 #    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 #    "Accept-Language": "en",
-#}
+# }
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
@@ -62,10 +62,11 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
+ITEM_PIPELINES = {
 #    "fundinfo.pipelines.FundManagerPipeline": 300,
 #    "fundinfo.pipelines.FundProdPipeline": 300,
-# }
+"fundinfo.pipelines.ImagsPipeLine": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -97,3 +98,8 @@ RETRY_TIMES=10
 
 ORACLE_CONNECTION_STRING ='reader/reader@192.168.144.66/eif'
 HTTPERROR_ALLOWED_CODES = [404]
+
+# REDIRECT_ENABLED = False
+# MEDIA_ALLOW_REDIRECTS =True
+
+IMAGES_STORE='./images'

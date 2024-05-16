@@ -8,6 +8,21 @@
 from itemadapter import ItemAdapter
 import cx_Oracle
 import datetime
+from scrapy.pipelines.images import ImagesPipeline
+import scrapy
+
+
+class ImagsChianzPipeLine(ImagesPipeline):
+    def get_media_request(self,item,info):
+        yield scrapy.Request(item['src'])
+
+    def file_path(self,request,respone=None,info=None, *, item=None):
+        imgName=request.url.split('/')[-1]
+        return imgName
+    
+    def item_completed(self, results, item, info):
+        return item
+    
 
 
 class FundinfoPipeline:
