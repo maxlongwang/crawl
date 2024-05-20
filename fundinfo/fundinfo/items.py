@@ -149,3 +149,7 @@ class SecuCollectAssetItem(scrapy.Item):
 class ImageChinazItem(scrapy.Item):
     image_urls=scrapy.Field()
     images=scrapy.Field()
+
+class FileDown(scrapy.Item):
+    file_urls=scrapy.Field()
+    files=scrapy.Field()
