@@ -33,6 +33,15 @@ class MovieDy2018(CrawlSpider):
 
         for url in self.start_urls:
             yield scrapy.Request(url=url, cookies=cookies)
+        
+        # cookies_dic={}
+        # for dic in cookies:
+        #     key =dic['name']
+        #     value=dic['value']
+        #     cookies_dic[key]=value
+        # or
+        # cookies_dic ={dic['name']:dic['value'] for dic in cookies}
+        # yield scrapy.Request(url,cookies=cookies_dic)
 
     def parse_detail(self, response):
         item = FileDown()
