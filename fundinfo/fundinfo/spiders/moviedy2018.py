@@ -32,6 +32,12 @@ class MovieDy2018(scrapy.Spider):
             goto_url = response.urljoin(url)
             # print(goto_url)
             yield scrapy.Request(url=goto_url, callback=self.parse_detail)
+        
+    # def parse(self, response):
+    #     le=LinkExtractor(restrict_xpaths=('//div[@class="co_content222"]//li/a',))
+    #     links=le.extract_links(response)
+    #     for link in links:
+    #         yield scrapy.Request(url=link.url,callback=self.parse_detail)
 
     def parse_detail(self, response):
         item = FileDown()
