@@ -5,11 +5,13 @@ import re
 
 '''
 使用文件下载测试
-采用selenium
+采用drissionpage 
+
 
 '''
 
-class Music163(scrapy.Spider):
+
+class Ppt1(scrapy.Spider):
     name = 'ppt1'
     # allowed_domains = ["1ppt.com"]
     start_urls = ["https://www.1ppt.com/xiazai/"]
