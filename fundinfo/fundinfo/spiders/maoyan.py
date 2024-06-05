@@ -11,7 +11,7 @@ recorder = Recorder('data.csv')
 page.get('https://www.maoyan.com/board/4')
 
 while True:
-    for mov in page.eles('t:dd'):
+    for mov in page.eles('tag:dd'):
         num = mov('t:i').text
         score = mov('.score').text
         title = mov('@data-act=boarditem-click').attr('title')
