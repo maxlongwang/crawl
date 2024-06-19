@@ -1,0 +1,44 @@
+{
+    "job": {
+        "content": [
+            {
+                "reader": {
+                    "name": "oraclereader",
+                    "parameter": {
+                        "column": ["a"],
+                        "connection": [
+                            {
+                                "jdbcUrl": ["jdbc:oracle:thin:@192.168.144.74:1521/eif"],
+                                "table": ["t_eif_user"]
+                            }
+                        ],
+                        "password": "oracle",
+                        "username": "eif"
+                    }
+                },
+                "writer": {
+                    "name": "mysqlwriter",
+                    "parameter": {
+                        "column": ["a"],
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:mysql://192.168.144.222:3306/cactivity",
+                                "table": ["t_eif_user2"]
+                            }
+                        ],
+                        "password": "IkE==3rB;P5",
+                        "preSql": [],
+                        "session": [],
+                        "username": "root",
+                        "writeMode": "insert"
+                    }
+                }
+            }
+        ],
+        "setting": {
+            "speed": {
+                "channel": "2"
+            }
+        }
+    }
+}

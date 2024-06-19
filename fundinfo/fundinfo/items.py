@@ -153,3 +153,10 @@ class ImageChinazItem(scrapy.Item):
 class FileDown(scrapy.Item):
     file_urls=scrapy.Field()
     files=scrapy.Field()
+    
+    
+class PPT1File(scrapy.Item):
+    url=scrapy.Field()
+    name=scrapy.Field()
+    topic=scrapy.Field()
+    
