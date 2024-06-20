@@ -1,97 +1,104 @@
 import cx_Oracle
 import json
+import pandas as pd
 
-dburl = '192.168.146.164/uf'
-username = 'system'
-password = 'oracle'
-
-
-jdbcUrl = f'jdbc:oracle:thin:@{dburl}'
-s_username = 'ct11'
-s_password = 'oracle'
-
-t_username = 'root'
-t_password = 'IkE==3rB;P5'
-t_jdbcdbUrl = 'jdbc:mysql://192.168.144.222:3306/cactivity'
-table_name = 'PRODCODE'
-file_table_name = table_name.lower()
-t_table_name = file_table_name
-
-conn = cx_Oracle.connect(username, password, dburl)
-cursor = conn.cursor()
-sql = f'''
-select lower(column_name) column_name,
-       lower(data_type2 || case
-               when data_type = 'NUMBER' and data_precision is not null then
-                '(' || data_length || ',4)'
-               when data_type in ('CHAR', 'VARCHAR2') then
-                '(' || data_length || ')'
-             end) data_type3
-  from (select column_name,
-               data_type,
-               data_precision,
-               case
-                 when data_type = 'VARCHAR2' then
-                  'VARCHAR'
-                 when data_type = 'NUMBER' and data_precision is not null then
-                  'DECIMAL'
-                 when data_type = 'NUMBER' and data_precision is null then
-                  'INT'
-                 when data_type = 'DATE' then
-                  'DATETIME'
-                 else
-                  data_type
-               end data_type2,
-               data_length
-          from dba_tab_columns t
-         where table_name = '{table_name}'
-         order by column_id)
- '''
-cursor.execute(sql)
-result = cursor.fetchall()
-# print(result)
-co_column_name = []
-create_column_name_list=[]
-for row in result:
-    print(row)
-    # print(row[0])
-    column_name = row[0]
-    column_name2 = '"{}"'.format(column_name)
-    co_column_name.append(column_name2)
- 
-    create_column_name=f'{row[0]} {row[1]}'
-    create_column_name_list.append(create_column_name)
-
-cursor.close()
-conn.close()
-co_column_name3 = ','.join(co_column_name)
-create_column_name2=','.join(create_column_name_list)
-co_column_name4 = co_column_name3.lower()
-
-with open("./template/oracle2mysql.json", "r") as file:
-    json_data = json.load(file)
-
-json_data['job']['content'][0]['reader']['parameter']['connection'][0]['jdbcUrl'][0] = jdbcUrl
-json_data['job']['content'][0]['reader']['parameter']['connection'][0]['table'][0] = file_table_name
-json_data['job']['content'][0]['reader']['parameter']['column'][0] = co_column_name4
-json_data['job']['content'][0]['reader']['parameter']['password'] = s_password
-json_data['job']['content'][0]['reader']['parameter']['username'] = s_username
-json_data['job']['content'][0]['writer']['parameter']['connection'][0]['jdbcUrl'] = t_jdbcdbUrl
-json_data['job']['content'][0]['writer']['parameter']['connection'][0]['table'][0] = t_table_name
-json_data['job']['content'][0]['writer']['parameter']['column'][0] = co_column_name4
-json_data['job']['content'][0]['writer']['parameter']['password'] = t_password
-json_data['job']['content'][0]['writer']['parameter']['username'] = t_username
-
-# print(json_data)
-
-with open(f'./output/{file_table_name}_oralce2mysql.json', 'w') as file:
-    json.dump(json_data, file, indent=4)
+create_column_names = ''
+s_columns_list = []
+t_columns_list = []
 
 
-def create_table(table_name):
-    a=f'create table {table_name} ({create_column_name2})'
-    print(a)
-    with open(f'./output/{file_table_name}.sql', 'w') as f:
+def getColumns(s_username, s_password, dburl):
+    global create_column_names, s_columns_list, t_columns_list
+    conn = cx_Oracle.connect(s_username, s_password, dburl)
+    cursor = conn.cursor()
+    sql = f'''
+        select column_name,
+                data_type2 || case
+                        when data_type = 'NUMBER' then
+                        '(' || data_length || ',4)'
+                        when data_type in ('CHAR', 'VARCHAR2') then
+                        '(' || data_length || ')'
+                    end data_type3
+        from (select column_name,
+                        data_type,
+                        data_precision,
+                        case
+                        when data_type = 'VARCHAR2' then
+                        'VARCHAR'
+                        when data_type = 'NUMBER' then
+                        'DECIMAL'
+                        when data_type = 'DATE' then
+                        'DATETIME'
+                        else
+                        data_type
+                        end data_type2,
+                        data_length
+                from user_tab_columns t
+                where table_name = '{s_tablename.upper()}'
+                order by column_id)
+    '''
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    s_columns_list = []
+    create_column_name_list = []
+    t_columns_list = []
+    for row in result:
+        column_name = row[0]
+        s_column = '{}'.format(column_name)
+        s_columns_list.append(s_column)
+
+        t_column = '`{}`'.format(column_name.lower())
+        t_columns_list.append(t_column)
+
+        create_column_name = f'{row[0]} {row[1]}'
+        create_column_name_list.append(create_column_name.lower())
+
+    cursor.close()
+    conn.close()
+
+    create_column_names = ','.join(create_column_name_list)
+
+
+def generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename, t_username, t_password, s_columns_list, t_columns_list):
+    with open("./template/oracle2mysql.json", "r") as file:
+        json_data = json.load(file)
+
+    json_data['job']['content'][0]['reader']['parameter']['connection'][0]['jdbcUrl'][0] = s_jdbcurl
+    json_data['job']['content'][0]['reader']['parameter']['connection'][0]['table'][0] = s_tablename
+    json_data['job']['content'][0]['reader']['parameter']['column'] = s_columns_list
+    json_data['job']['content'][0]['reader']['parameter']['password'] = s_password
+    json_data['job']['content'][0]['reader']['parameter']['username'] = s_username
+    json_data['job']['content'][0]['writer']['parameter']['connection'][0]['jdbcUrl'] = t_jdbcurl
+    json_data['job']['content'][0]['writer']['parameter']['connection'][0]['table'][0] = t_tablename
+    json_data['job']['content'][0]['writer']['parameter']['column'] = t_columns_list
+    json_data['job']['content'][0]['writer']['parameter']['password'] = t_password
+    json_data['job']['content'][0]['writer']['parameter']['username'] = t_username
+
+    with open(f'./output/json/{s_tablename}_oracle2mysql.json', 'w') as file:
+        json.dump(json_data, file, indent=4)
+
+
+def create_table(table_name, t_columns):
+    # tablename = table_name.lower()
+    a = f'create table {table_name} ({t_columns})'
+    with open(f'./output/sql/{table_name}.sql', 'w') as f:
         f.write(a)
-        
-create_table(file_table_name)                    
+
+
+df = pd.read_excel('table_oracle2mysql.xlsx')
+
+for _, row in df.iterrows():
+    s_tablename = row['s_tablename']
+    s_jdbcurl = row['s_jdbcurl']
+    s_username = row['s_username']
+    s_password = row['s_password']
+    t_tablename = row['t_tablename']
+    t_jdbcurl = row['t_jdbcurl']
+    t_username = row['t_username']
+    t_password = row['t_password']
+
+    dburl = s_jdbcurl.split('@')[-1]
+
+    getColumns(s_username, s_password, dburl)
+    generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename, t_username, t_password, s_columns_list, t_columns_list)
+    create_table(t_tablename, create_column_names)

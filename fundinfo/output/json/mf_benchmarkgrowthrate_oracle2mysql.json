@@ -1,0 +1,100 @@
+{
+    "job": {
+        "content": [
+            {
+                "reader": {
+                    "name": "oraclereader",
+                    "parameter": {
+                        "column": [
+                            "ID",
+                            "INNERCODE",
+                            "ENDDATE",
+                            "DAILYBENCHGR",
+                            "BENCHGRFORTHISWEEK",
+                            "WEEKLYBENCHGR",
+                            "BENCHGRFORTHISMONTH",
+                            "MONTHLYBENCHGR",
+                            "BENCHGRFOR4WEEK",
+                            "BENCHGRFORTHISQUARTER",
+                            "BENCHGRFOR3MONTH",
+                            "BENCHGRFOR6MONTH",
+                            "BENCHGRFORTHISYEAR",
+                            "BENCHGRFOR1YEAR",
+                            "BENCHGRFOR2YEAR",
+                            "BENCHGRFOR3YEAR",
+                            "BENCHGRFOR5YEAR",
+                            "BENCHGRFOR7YEAR",
+                            "BENCHGRFOR10YEAR",
+                            "BENCHGRFORSINCE",
+                            "UPDATATIME",
+                            "JSID",
+                            "ANNUALIZEDBRFORSINCE",
+                            "INSERTTIME"
+                        ],
+                        "connection": [
+                            {
+                                "jdbcUrl": [
+                                    "jdbc:oracle:thin:@192.168.146.118/jydb"
+                                ],
+                                "table": [
+                                    "MF_BenchmarkGrowthRate"
+                                ]
+                            }
+                        ],
+                        "password": "jydb",
+                        "username": "jydb"
+                    }
+                },
+                "writer": {
+                    "name": "mysqlwriter",
+                    "parameter": {
+                        "column": [
+                            "`id`",
+                            "`innercode`",
+                            "`enddate`",
+                            "`dailybenchgr`",
+                            "`benchgrforthisweek`",
+                            "`weeklybenchgr`",
+                            "`benchgrforthismonth`",
+                            "`monthlybenchgr`",
+                            "`benchgrfor4week`",
+                            "`benchgrforthisquarter`",
+                            "`benchgrfor3month`",
+                            "`benchgrfor6month`",
+                            "`benchgrforthisyear`",
+                            "`benchgrfor1year`",
+                            "`benchgrfor2year`",
+                            "`benchgrfor3year`",
+                            "`benchgrfor5year`",
+                            "`benchgrfor7year`",
+                            "`benchgrfor10year`",
+                            "`benchgrforsince`",
+                            "`updatatime`",
+                            "`jsid`",
+                            "`annualizedbrforsince`",
+                            "`inserttime`"
+                        ],
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:mysql://192.168.144.222:3306/jydb",
+                                "table": [
+                                    "MF_BenchmarkGrowthRate"
+                                ]
+                            }
+                        ],
+                        "password": "IkE==3rB;P7",
+                        "preSql": [],
+                        "session": [],
+                        "username": "root",
+                        "writeMode": "insert"
+                    }
+                }
+            }
+        ],
+        "setting": {
+            "speed": {
+                "channel": "2"
+            }
+        }
+    }
+}

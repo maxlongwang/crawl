@@ -5,7 +5,7 @@
                 "reader": {
                     "name": "oraclereader",
                     "parameter": {
-                        "column": ["a"],
+                        "column": ["a","b"],
                         "connection": [
                             {
                                 "jdbcUrl": ["jdbc:oracle:thin:@192.168.144.74:1521/eif"],
@@ -19,7 +19,7 @@
                 "writer": {
                     "name": "mysqlwriter",
                     "parameter": {
-                        "column": ["a"],
+                        "column": ["a","b"],
                         "connection": [
                             {
                                 "jdbcUrl": "jdbc:mysql://192.168.144.222:3306/cactivity",

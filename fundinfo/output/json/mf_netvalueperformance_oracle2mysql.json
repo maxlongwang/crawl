@@ -1,0 +1,106 @@
+{
+    "job": {
+        "content": [
+            {
+                "reader": {
+                    "name": "oraclereader",
+                    "parameter": {
+                        "column": [
+                            "ID",
+                            "INNERCODE",
+                            "TRADINGDAY",
+                            "UNITNV",
+                            "RRINSELECTEDWEEK",
+                            "RRINSINGLEWEEK",
+                            "RRINSELECTEDMONTH",
+                            "RRINSINGLEMONTH",
+                            "RRINTHREEMONTH",
+                            "RRINSIXMONTH",
+                            "RRSINCETHISYEAR",
+                            "RRINSINGLEYEAR",
+                            "RRINTWOYEAR",
+                            "ANNUALIZEDRRINTWOYEAR",
+                            "RRINTHREEYEAR",
+                            "ANNUALIZEDRRINTHREEYEAR",
+                            "RRINFIVEYEAR",
+                            "ANNUALIZEDRRINFIVEYEAR",
+                            "RRINTENYEAR",
+                            "ANNUALIZEDRRINTENYEAR",
+                            "RRSINCESTART",
+                            "ANNUALIZEDRRSINCESTART",
+                            "UPDATETIME",
+                            "JSID",
+                            "NVDAILYGROWTHRATE",
+                            "RRSINCESTARTII",
+                            "ACCUMULATEDUNITNV"
+                        ],
+                        "connection": [
+                            {
+                                "jdbcUrl": [
+                                    "jdbc:oracle:thin:@192.168.146.118/jydb"
+                                ],
+                                "table": [
+                                    "MF_NetValuePerformance"
+                                ]
+                            }
+                        ],
+                        "password": "jydb",
+                        "username": "jydb"
+                    }
+                },
+                "writer": {
+                    "name": "mysqlwriter",
+                    "parameter": {
+                        "column": [
+                            "`id`",
+                            "`innercode`",
+                            "`tradingday`",
+                            "`unitnv`",
+                            "`rrinselectedweek`",
+                            "`rrinsingleweek`",
+                            "`rrinselectedmonth`",
+                            "`rrinsinglemonth`",
+                            "`rrinthreemonth`",
+                            "`rrinsixmonth`",
+                            "`rrsincethisyear`",
+                            "`rrinsingleyear`",
+                            "`rrintwoyear`",
+                            "`annualizedrrintwoyear`",
+                            "`rrinthreeyear`",
+                            "`annualizedrrinthreeyear`",
+                            "`rrinfiveyear`",
+                            "`annualizedrrinfiveyear`",
+                            "`rrintenyear`",
+                            "`annualizedrrintenyear`",
+                            "`rrsincestart`",
+                            "`annualizedrrsincestart`",
+                            "`updatetime`",
+                            "`jsid`",
+                            "`nvdailygrowthrate`",
+                            "`rrsincestartii`",
+                            "`accumulatedunitnv`"
+                        ],
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:mysql://192.168.144.222:3306/jydb",
+                                "table": [
+                                    "MF_NetValuePerformance"
+                                ]
+                            }
+                        ],
+                        "password": "IkE==3rB;P6",
+                        "preSql": [],
+                        "session": [],
+                        "username": "root",
+                        "writeMode": "insert"
+                    }
+                }
+            }
+        ],
+        "setting": {
+            "speed": {
+                "channel": "2"
+            }
+        }
+    }
+}

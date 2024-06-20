@@ -1,11 +1,17 @@
-import subprocess
-import os
-import time
 
-down_url = r'''magnet:?xt=urn:btih:62847e43ad0226c8ed16d42b556625d68fd7640b&dn=[电影天堂www.dytt89.com]周处除三害-2024_HD国语中字.mp4'''
+import pandas as pd
 
-# subprocess.call(["Thunder.exe", "-StartType:DesktopIcon", "-Url:" + down_url])
+df = pd.read_excel('table_oracle2mysql.xlsx')
+# print(df.head())
+for _,row in df.iterrows():
+    s_tablename=row['s_tablename']
+    s_jdburl=row['s_jdbcurl']
+    s_username=row['s_jdbcurl']
+    s_password=row['s_jdbcurl']
+    t_tablename=row['s_jdbcurl']
+    t_jdbcurl=row['s_jdbcurl']
+    t_username=row['s_jdbcurl']
+    t_password=row['t_password']
 
-os.system(r'"C:\Program Files (x86)\Thunder Network\Thunder\Program\Thunder.exe" {url}'.format(url=down_url))
-# time.sleep(20)
-
+    
+    

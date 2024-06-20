@@ -1,0 +1,72 @@
+{
+    "job": {
+        "content": [
+            {
+                "reader": {
+                    "name": "oraclereader",
+                    "parameter": {
+                        "column": [
+                            "ID",
+                            "INNERCODE",
+                            "TRADINGDAY",
+                            "UNITNV",
+                            "GROWTHRATEFACTOR",
+                            "UNITNVRESTORED",
+                            "NVDAILYGROWTHRATE",
+                            "NVRDAILYGROWTHRATE",
+                            "UPDATETIME",
+                            "JSID"
+                        ],
+                        "connection": [
+                            {
+                                "jdbcUrl": [
+                                    "jdbc:oracle:thin:@192.168.146.118/jydb"
+                                ],
+                                "table": [
+                                    "MF_FundNetValueRe"
+                                ]
+                            }
+                        ],
+                        "password": "jydb",
+                        "username": "jydb"
+                    }
+                },
+                "writer": {
+                    "name": "mysqlwriter",
+                    "parameter": {
+                        "column": [
+                            "`id`",
+                            "`innercode`",
+                            "`tradingday`",
+                            "`unitnv`",
+                            "`growthratefactor`",
+                            "`unitnvrestored`",
+                            "`nvdailygrowthrate`",
+                            "`nvrdailygrowthrate`",
+                            "`updatetime`",
+                            "`jsid`"
+                        ],
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:mysql://192.168.144.222:3306/jydb",
+                                "table": [
+                                    "MF_FundNetValueRe"
+                                ]
+                            }
+                        ],
+                        "password": "IkE==3rB;P5",
+                        "preSql": [],
+                        "session": [],
+                        "username": "root",
+                        "writeMode": "insert"
+                    }
+                }
+            }
+        ],
+        "setting": {
+            "speed": {
+                "channel": "2"
+            }
+        }
+    }
+}

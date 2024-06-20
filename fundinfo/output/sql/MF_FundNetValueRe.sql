@@ -1,0 +1,1 @@
+create table MF_FundNetValueRe (id decimal(22,4),innercode decimal(22,4),tradingday datetime,unitnv decimal(22,4),growthratefactor float,unitnvrestored decimal(22,4),nvdailygrowthrate decimal(22,4),nvrdailygrowthrate decimal(22,4),updatetime datetime,jsid decimal(22,4))
