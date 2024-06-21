@@ -1,0 +1,37 @@
+{
+    "job": {
+        "content": [
+            {
+                "reader": {
+                    "name": "mysqlreader",
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": ["jdbc:mysql://192.168.144.89:3306/eif"], 
+                                "querySql": [
+                                    "SELECT ifnull(max(user_id),0) FROM t_eif_user2"
+                                ]
+                            }
+                        ], 
+                        "password": "12345678", 
+                        "username": "sa"
+                    }
+                },
+                "writer": {
+                    "name": "txtfilewriter",
+                    "parameter": {
+                        "fileName": "t_eif_user_user_id",
+                        "fileFormat": "csv",
+                        "path": "./csv",
+                        "writeMode": "truncate"
+                    }
+                }
+            }
+        ],
+        "setting": { 
+            "speed": {
+                    "channel": 2
+                }
+        }
+    }
+}

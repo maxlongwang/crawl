@@ -12,6 +12,7 @@
                                 "table": ["t_eif_user"]
                             }
                         ],
+
                         "password": "oracle",
                         "username": "eif"
                     }
@@ -37,7 +38,7 @@
         ],
         "setting": {
             "speed": {
-                "channel": "2"
+                "channel": "1"
             }
         }
     }
