@@ -1,0 +1,85 @@
+{
+    "job": {
+        "content": [
+            {
+                "reader": {
+                    "name": "oraclereader",
+                    "parameter": {
+                        "column": [
+                            "ID",
+                            "INNERCODE",
+                            "ENDDATE",
+                            "TYPECODE",
+                            "TYPENAME",
+                            "FUNDTYPECODE",
+                            "FUNDTYPENAME",
+                            "INDEXCYCLE",
+                            "FUNDRETURN",
+                            "FUNDRETURNMEAN",
+                            "FUNDRETURNRANK",
+                            "INSERTTIME",
+                            "UPDATETIME",
+                            "JSID",
+                            "FUNDANNRETURN",
+                            "FUNDANNRETURNMEAN"
+                        ],
+                        "connection": [
+                            {
+                                "jdbcUrl": [
+                                    "jdbc:oracle:thin:@192.168.146.118/jydb"
+                                ],
+                                "table": [
+                                    "MF_FundReturnRank"
+                                ]
+                            }
+                        ],
+                        "password": "jydb",
+                        "username": "jydb",
+                        "where": "id>'${id}'"
+                    }
+                },
+                "writer": {
+                    "name": "mysqlwriter",
+                    "parameter": {
+                        "column": [
+                            "`id`",
+                            "`innercode`",
+                            "`enddate`",
+                            "`typecode`",
+                            "`typename`",
+                            "`fundtypecode`",
+                            "`fundtypename`",
+                            "`indexcycle`",
+                            "`fundreturn`",
+                            "`fundreturnmean`",
+                            "`fundreturnrank`",
+                            "`inserttime`",
+                            "`updatetime`",
+                            "`jsid`",
+                            "`fundannreturn`",
+                            "`fundannreturnmean`"
+                        ],
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:mysql://192.168.144.222:3306/jydb",
+                                "table": [
+                                    "MF_FundReturnRank"
+                                ]
+                            }
+                        ],
+                        "password": "IkE==3rB;P5",
+                        "preSql": [],
+                        "session": [],
+                        "username": "root",
+                        "writeMode": "insert"
+                    }
+                }
+            }
+        ],
+        "setting": {
+            "speed": {
+                "channel": "1"
+            }
+        }
+    }
+}

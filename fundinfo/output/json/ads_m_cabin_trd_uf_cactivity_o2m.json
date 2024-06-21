@@ -1,0 +1,85 @@
+{
+    "job": {
+        "content": [
+            {
+                "reader": {
+                    "name": "oraclereader",
+                    "parameter": {
+                        "column": [
+                            "INIT_DATE",
+                            "C_SCOPE",
+                            "MAIN_PART",
+                            "IDD",
+                            "ETL_DATE",
+                            "BATCH_NO",
+                            "T_Y_GJ",
+                            "T_Y_GJ_O",
+                            "T_Y_GJ_PCT",
+                            "T_Y_YJ_PCT",
+                            "T_Y_HS_PCT",
+                            "T_Y_GJ_LASTS",
+                            "T_Y_GJ_PCT_LASTA",
+                            "T_Y_YJ_PCT_LASTA",
+                            "T_Y_HS_PCT_LASTS"
+                        ],
+                        "connection": [
+                            {
+                                "jdbcUrl": [
+                                    "jdbc:oracle:thin:@192.168.146.164/uf"
+                                ],
+                                "table": [
+                                    "ads_m_cabin_trd"
+                                ]
+                            }
+                        ],
+                        "password": "oracle",
+                        "username": "cactivity",
+                        "where": "init_date='${init_date}'"
+                    }
+                },
+                "writer": {
+                    "name": "mysqlwriter",
+                    "parameter": {
+                        "column": [
+                            "`init_date`",
+                            "`c_scope`",
+                            "`main_part`",
+                            "`idd`",
+                            "`etl_date`",
+                            "`batch_no`",
+                            "`t_y_gj`",
+                            "`t_y_gj_o`",
+                            "`t_y_gj_pct`",
+                            "`t_y_yj_pct`",
+                            "`t_y_hs_pct`",
+                            "`t_y_gj_lasts`",
+                            "`t_y_gj_pct_lasta`",
+                            "`t_y_yj_pct_lasta`",
+                            "`t_y_hs_pct_lasts`"
+                        ],
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:mysql://192.168.144.222:3306/cactivity",
+                                "table": [
+                                    "ads_m_cabin_trd"
+                                ]
+                            }
+                        ],
+                        "password": "IkE==3rB;P5",
+                        "preSql": [
+                            "delete from ads_m_cabin_trd where init_date='${init_date}'"
+                        ],
+                        "session": [],
+                        "username": "root",
+                        "writeMode": "insert"
+                    }
+                }
+            }
+        ],
+        "setting": {
+            "speed": {
+                "channel": "1"
+            }
+        }
+    }
+}

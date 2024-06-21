@@ -1,0 +1,39 @@
+{
+    "job": {
+        "content": [
+            {
+                "reader": {
+                    "name": "mysqlreader",
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": [
+                                    "jdbc:mysql://192.168.144.222:3306/jydb"
+                                ],
+                                "querySql": [
+                                    "SELECT ifnull(max(id),0) FROM MF_BenchmarkGrowthRate"
+                                ]
+                            }
+                        ],
+                        "password": "IkE==3rB;P5",
+                        "username": "root"
+                    }
+                },
+                "writer": {
+                    "name": "txtfilewriter",
+                    "parameter": {
+                        "fileName": "MF_BenchmarkGrowthRate_jydb_jydb_o2m_id",
+                        "fileFormat": "csv",
+                        "path": "./csv",
+                        "writeMode": "truncate"
+                    }
+                }
+            }
+        ],
+        "setting": {
+            "speed": {
+                "channel": 2
+            }
+        }
+    }
+}
