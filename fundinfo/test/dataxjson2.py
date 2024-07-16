@@ -1,11 +1,12 @@
 import cx_Oracle
 import json
 import pandas as pd
+import pymysql
 
 create_column_names = ''
 s_columns_list = []
 t_columns_list = []
-filename=''
+filename = ''
 
 
 def getColumns(s_username, s_password, dburl):
@@ -42,6 +43,8 @@ def getColumns(s_username, s_password, dburl):
                   end
                  when data_type = 'CLOB' then
                   'TEXT'
+                when data_type='DATE' and column_name='XGRQ' then 
+                    'DATETIME'
                  else
                   data_type
                end data_type2,
@@ -72,7 +75,7 @@ def getColumns(s_username, s_password, dburl):
     create_column_names = ','.join(create_column_name_list)
 
 
-def generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename, t_username, t_password, s_columns_list, t_columns_list,sync_type,sync_colname):
+def generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename, t_username, t_password, s_columns_list, t_columns_list, sync_type, sync_colname):
     # tablename_dbname_username_o2m.json
     global filename
     with open("./template/oracle2mysql.json", "r") as file:
@@ -88,31 +91,32 @@ def generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl
     json_data['job']['content'][0]['writer']['parameter']['column'] = t_columns_list
     json_data['job']['content'][0]['writer']['parameter']['password'] = t_password
     json_data['job']['content'][0]['writer']['parameter']['username'] = t_username
-    
+
     # 全量
-    if sync_type==1:
-        preSql=[]
-        preSql_str=f"delete from {t_tablename}"
+    if sync_type == 1:
+        preSql = []
+        preSql_str = f"delete from {t_tablename}"
         preSql.append(preSql_str)
-        json_data['job']['content'][0]['writer']['parameter']['preSql']=preSql
+        json_data['job']['content'][0]['writer']['parameter']['preSql'] = preSql
     # 按天
-    elif (sync_type==2):
-        json_data['job']['content'][0]['reader']['parameter']['where']= f"{sync_colname} between to_date('${{start_date}}','yyyymmdd') and to_date('${{end_date}}','yyyymmdd')"
-        preSql_str=f"delete from {t_tablename} where {sync_colname} between '${{start_date}}' and '${{end_date}}'"
-        preSql=[]
+    elif (sync_type == 2):
+        json_data['job']['content'][0]['reader']['parameter']['where'] = f"{
+            sync_colname} between to_date('${{start_date}}','yyyymmdd') and to_date('${{end_date}}','yyyymmdd')"
+        preSql_str = f"delete from {t_tablename} where {sync_colname} between '${{start_date}}' and '${{end_date}}'"
+        preSql = []
         preSql.append(preSql_str)
-        json_data['job']['content'][0]['writer']['parameter']['preSql']=preSql
+        json_data['job']['content'][0]['writer']['parameter']['preSql'] = preSql
     # 按主键增量
-    elif (sync_type==3):
-        json_data['job']['content'][0]['reader']['parameter']['where']= f"{sync_colname}>'${{{sync_colname}}}'"
-        #jydb 需要删除数据
-        if (t_jdbcurl.split('/')[-1]=='jydb'):
-            postSql_str=f"delete from {t_tablename} where jsid in (select jsid from jydb_deleterec where tablename='{t_tablename}' and xgrq>DATE(NOW()))"
-            postSql=[]
+    elif (sync_type == 3):
+        json_data['job']['content'][0]['reader']['parameter']['where'] = f"{sync_colname}>'${{{sync_colname}}}'"
+        # jydb 需要删除数据
+        if (t_jdbcurl.split('/')[-1] == 'jydb'):
+            postSql_str = f"delete from {t_tablename} where jsid in (select jsid from jydb_deleterec where tablename='{
+                t_tablename}' and xgrq>DATE(NOW()))"
+            postSql = []
             postSql.append(postSql_str)
-            json_data['job']['content'][0]['writer']['parameter']['postSql']=postSql
-            
-        
+            json_data['job']['content'][0]['writer']['parameter']['postSql'] = postSql
+
     with open(f'./output/json/{filename}.json', 'w') as file:
         json.dump(json_data, file, indent=4)
 
@@ -124,14 +128,14 @@ def create_table(table_name, t_columns):
         f.write(a)
 
 
-def generate_pre_json_file(table_name, column_name,t_jdbcurl,t_username,t_password):
+def generate_pre_json_file(table_name, column_name, t_jdbcurl, t_username, t_password):
     global filename
     with open("./template/oracle2mysql_pre.json", "r") as file:
         json_data = json.load(file)
         json_data['job']['content'][0]['reader']['parameter']['connection'][0]['jdbcUrl'][0] = t_jdbcurl
         querySql = f'SELECT ifnull(max({column_name}),0) FROM {table_name}'
         json_data['job']['content'][0]['reader']['parameter']['connection'][0]['querySql'][0] = querySql
-        
+
         json_data['job']['content'][0]['writer']['parameter']['fileName'] = f'{filename}_{column_name}'
         json_data['job']['content'][0]['reader']['parameter']['username'] = t_username
         json_data['job']['content'][0]['reader']['parameter']['password'] = t_password
@@ -141,28 +145,33 @@ def generate_pre_json_file(table_name, column_name,t_jdbcurl,t_username,t_passwo
 
 
 # main()
-df = pd.read_excel('table_oracle2mysql.xlsx')
 
-for _, row in df.iterrows():
-    s_tablename = row['s_tablename']
-    s_jdbcurl = row['s_jdbcurl']
-    s_username = row['s_username']
-    s_password = row['s_password']
-    t_tablename = row['t_tablename']
-    t_jdbcurl = row['t_jdbcurl']
-    t_username = row['t_username']
-    t_password = row['t_password']
-    sync_type= row['sync_type']
-    sync_colname = row['sync_colname']
-    
+conn = pymysql.connect(host="192.168.144.222", user="root", password="IkE==3rB;P5", database="cetl")
+cursor = conn.cursor()
+cursor.execute("select group_id,dbname,tablename,stablename,sjdbc,susername,spassword,sync_type,incr_col from t_job ")
+results = cursor.fetchall()
+cursor.close()
+conn.close()
+
+for row in results:
+    t_dbname = row[1]
+    t_tablename = row[2]
+    s_tablename = row[3]
+    sjdbc = row[4]
+    s_username = row[5]
+    s_password = row[6]
+    sync_type = row[7]
+    sync_colname = row[8]
+    t_username = 'rdmetl'
+    t_password = 'mysql'
+    s_jdbcurl = f'jdbc:oracle:thin:@{sjdbc}'
+    t_jdbcurl = f'jdbc:mysql://192.168.144.222/{t_dbname}'
 
     dburl = s_jdbcurl.split('@')[-1]
     filename = f'{t_jdbcurl.split('/')[-1]}_{t_tablename}'
 
     getColumns(s_username, s_password, dburl)
     create_table(t_tablename, create_column_names)
-    generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename, t_username, t_password, s_columns_list, t_columns_list,sync_type,sync_colname)
-    if (sync_type==3):
-        generate_pre_json_file(s_tablename, sync_colname,t_jdbcurl,t_username,t_password)
-    
-
+    generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename,t_username, t_password, s_columns_list, t_columns_list, sync_type, sync_colname)
+    if (sync_type == 3):
+        generate_pre_json_file(s_tablename, sync_colname, t_jdbcurl, t_username, t_password)

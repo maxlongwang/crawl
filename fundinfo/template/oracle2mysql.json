@@ -14,11 +14,13 @@
                         ],
 
                         "password": "oracle",
-                        "username": "eif"
+                        "username": "eif",
+                        "splitPk":"",
+                        "where":""
                     }
                 },
                 "writer": {
-                    "name": "mysqlwriter",
+                    "name": "mysqlwriter1commit",
                     "parameter": {
                         "column": ["a","b"],
                         "connection": [
@@ -31,7 +33,8 @@
                         "preSql": [],
                         "session": [],
                         "username": "root",
-                        "writeMode": "insert"
+                        "writeMode": "insert",
+                        "batchSize":"5000"
                     }
                 }
             }
@@ -39,6 +42,9 @@
         "setting": {
             "speed": {
                 "channel": "1"
+            },
+            "errorLimit":{
+                "record":0
             }
         }
     }

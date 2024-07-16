@@ -1,1 +1,1 @@
-create table QT_IndexQuote (id decimal(22,4),innercode decimal(22,4),tradingday datetime,prevcloseprice decimal(22,4),openprice decimal(22,4),highprice decimal(22,4),lowprice decimal(22,4),closeprice decimal(22,4),turnovervolume decimal(22,4),turnovervalue decimal(22,4),turnoverdeals decimal(22,4),changepct decimal(22,4),xgrq datetime,jsid decimal(22,4),negotiablemv decimal(22,4))
+create table QT_IndexQuote ()

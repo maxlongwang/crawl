@@ -6,6 +6,7 @@ from fundinfo.items import PPT1File
 '''
 js 逆向来进行爬取数据,需要解决滑块的问题
 20240650 发下过验证码取消了。原来是阿里的227验证码
+20240621 403
 
 '''
 
@@ -44,7 +45,7 @@ class Ppt1Js(scrapy.Spider):
         
         item = kwargs['item']
         down_url=response.xpath("//ul[@class='downloadlist']/li[@class='c1']/a/@href/text()").get()
-        print(response.body.decode('utf-8'))
+        print(response.content.decode('utf-8'))
         # print(item,down_url)
         # self.url_list.append(down_url)
         # print (self.url_list)
