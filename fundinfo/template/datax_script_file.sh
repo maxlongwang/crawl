@@ -6,7 +6,10 @@ RESULT=0
 DIRECTORY=/opt/datax/datax/job
 cd $DIRECTORY
 
-busi_date=${1}
+start_date=${1}
+end_date=${1}
+end_date2=`date -d "$start_date +1 days" +'%Y%m%d'`
+month_date=${1:0:6}
 {content}
 exit $RESULT
 

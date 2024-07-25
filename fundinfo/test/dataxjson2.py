@@ -1,6 +1,5 @@
 import cx_Oracle
 import json
-import pandas as pd
 import pymysql
 
 create_column_names = ''
@@ -100,8 +99,11 @@ def generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl
         json_data['job']['content'][0]['writer']['parameter']['preSql'] = preSql
     # 按天
     elif (sync_type == 2):
-        json_data['job']['content'][0]['reader']['parameter']['where'] = f"{
-            sync_colname} between to_date('${{start_date}}','yyyymmdd') and to_date('${{end_date}}','yyyymmdd')"
+        if incr_col_type in (1,2):
+            json_data['job']['content'][0]['reader']['parameter']['where'] = f"{sync_colname} between to_date('${{start_date}}','yyyymmdd') and to_date('${{end_date}}','yyyymmdd')"
+        elif incr_col_type in (3,4):
+            json_data['job']['content'][0]['reader']['parameter']['where'] = f"{sync_colname} between '${{start_date}}' and '${{end_date}}'"
+
         preSql_str = f"delete from {t_tablename} where {sync_colname} between '${{start_date}}' and '${{end_date}}'"
         preSql = []
         preSql.append(preSql_str)
@@ -111,8 +113,7 @@ def generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl
         json_data['job']['content'][0]['reader']['parameter']['where'] = f"{sync_colname}>'${{{sync_colname}}}'"
         # jydb 需要删除数据
         if (t_jdbcurl.split('/')[-1] == 'jydb'):
-            postSql_str = f"delete from {t_tablename} where jsid in (select jsid from jydb_deleterec where tablename='{
-                t_tablename}' and xgrq>DATE(NOW()))"
+            postSql_str = f"delete from {t_tablename} where jsid in (select jsid from jydb_deleterec where tablename='{t_tablename}' and xgrq>DATE(NOW()))"
             postSql = []
             postSql.append(postSql_str)
             json_data['job']['content'][0]['writer']['parameter']['postSql'] = postSql
@@ -148,7 +149,7 @@ def generate_pre_json_file(table_name, column_name, t_jdbcurl, t_username, t_pas
 
 conn = pymysql.connect(host="192.168.144.222", user="root", password="IkE==3rB;P5", database="cetl")
 cursor = conn.cursor()
-cursor.execute("select group_id,dbname,tablename,stablename,sjdbc,susername,spassword,sync_type,incr_col from t_job ")
+cursor.execute("select group_id,dbname,tablename,stablename,sjdbc,susername,spassword,sync_type,incr_col,incr_col_type from t_job where status=0")
 results = cursor.fetchall()
 cursor.close()
 conn.close()
@@ -162,6 +163,7 @@ for row in results:
     s_password = row[6]
     sync_type = row[7]
     sync_colname = row[8]
+    incr_col_type=row[9]
     t_username = 'rdmetl'
     t_password = 'mysql'
     s_jdbcurl = f'jdbc:oracle:thin:@{sjdbc}'
