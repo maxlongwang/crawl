@@ -147,7 +147,7 @@ def generate_pre_json_file(table_name, column_name, t_jdbcurl, t_username, t_pas
 
 # main()
 
-conn = pymysql.connect(host="192.168.144.222", user="root", password="IkE==3rB;P5", database="cetl")
+conn = pymysql.connect(host="192.168.144.148", user="root", password="IkE==3rB;P5", database="cetl")
 cursor = conn.cursor()
 cursor.execute("select group_id,dbname,tablename,stablename,sjdbc,susername,spassword,sync_type,incr_col,incr_col_type from t_job where status=0")
 results = cursor.fetchall()
@@ -167,7 +167,7 @@ for row in results:
     t_username = 'rdmetl'
     t_password = 'mysql'
     s_jdbcurl = f'jdbc:oracle:thin:@{sjdbc}'
-    t_jdbcurl = f'jdbc:mysql://192.168.144.222/{t_dbname}'
+    t_jdbcurl = f'jdbc:mysql://192.168.144.148/{t_dbname}'
 
     dburl = s_jdbcurl.split('@')[-1]
     filename = f'{t_jdbcurl.split('/')[-1]}_{t_tablename}'
