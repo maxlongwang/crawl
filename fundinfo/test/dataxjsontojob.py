@@ -8,7 +8,7 @@ t_columns_list = []
 filename = ''
 
 
-def getColumns(s_username, s_password, dburl,s_tablename):
+def getColumns(s_username, s_password, dburl):
     global create_column_names, s_columns_list, t_columns_list
     conn = cx_Oracle.connect(s_username, s_password, dburl)
     cursor = conn.cursor()
@@ -74,7 +74,8 @@ def getColumns(s_username, s_password, dburl,s_tablename):
     create_column_names = ','.join(create_column_name_list)
 
 
-def generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename, t_username, t_password, s_columns_list, t_columns_list, sync_type, sync_colname,incr_col_type):
+def generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename, t_username, t_password, s_columns_list, t_columns_list, sync_type, sync_colname):
+    # tablename_dbname_username_o2m.json
     global filename
     with open("./template/oracle2mysql.json", "r") as file:
         json_data = json.load(file)
@@ -117,14 +118,14 @@ def generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl
             postSql.append(postSql_str)
             json_data['job']['content'][0]['writer']['parameter']['postSql'] = postSql
 
-    with open(f'./output/json/{filename}.json', 'w') as file:
+    with open(f'./output/tojson/{filename}.json', 'w') as file:
         json.dump(json_data, file, indent=4)
 
 
 def create_table(table_name, t_columns):
     # tablename = table_name.lower()
     a = f'create table {table_name} ({t_columns})'
-    with open(f'./output/sql/{table_name}.sql', 'w') as f:
+    with open(f'./output/tosql/{table_name}.sql', 'w') as f:
         f.write(a)
 
 
@@ -144,73 +145,35 @@ def generate_pre_json_file(table_name, column_name, t_jdbcurl, t_username, t_pas
         json.dump(json_data, file, indent=4)
 
 
-def collect():
-    global filename
-    conn = pymysql.connect(host="192.168.144.148", user="root", password="IkE==3rB;P5", database="cetl")
-    cursor = conn.cursor()
-    cursor.execute("select group_id,dbname,tablename,stablename,sjdbc,susername,spassword,sync_type,incr_col,incr_col_type from t_job where status=0")
-    results = cursor.fetchall()
-    cursor.close()
-    conn.close()
+# main()
 
-    for row in results:
-        t_dbname = row[1]
-        t_tablename = row[2]
-        s_tablename = row[3]
-        sjdbc = row[4]
-        s_username = row[5]
-        s_password = row[6]
-        sync_type = row[7]
-        sync_colname = row[8]
-        incr_col_type=row[9]
-        t_username = 'rdmetl'
-        t_password = 'mysql'
-        s_jdbcurl = f'jdbc:oracle:thin:@{sjdbc}'
-        t_jdbcurl = f'jdbc:mysql://192.168.144.148/{t_dbname}'
+conn = pymysql.connect(host="192.168.144.148", user="root", password="IkE==3rB;P5", database="cetl")
+cursor = conn.cursor()
+cursor.execute("select group_id,dbname,tablename,ttablename,tjdbc,sync_type,incr_col,incr_col_type from t_job2 where status=0")
+results = cursor.fetchall()
+cursor.close()
+conn.close()
 
-        dburl = s_jdbcurl.split('@')[-1]
-        filename = f'{t_jdbcurl.split('/')[-1]}_{t_tablename}'
+for row in results:
+    t_dbname = 'dmdw'
+    t_tablename = row[3]
+    s_tablename = row[2]
+    sjdbc = '192.168.146.164/uf'
+    s_username = row[1]
+    s_password = 'oracle'
+    sync_type = row[5]
+    sync_colname = row[6]
+    incr_col_type=row[7]
+    t_username = 'rdmetl'
+    t_password = 'mysql'
+    s_jdbcurl = f'jdbc:oracle:thin:@{sjdbc}'
+    t_jdbcurl = f'jdbc:mysql://192.168.144.148/{t_dbname}'
 
-        getColumns(s_username, s_password, dburl,s_tablename)
-        create_table(t_tablename, create_column_names)
-        generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename,t_username, t_password, s_columns_list, t_columns_list, sync_type, sync_colname,incr_col_type)
-        if (sync_type == 3):
-            generate_pre_json_file(s_tablename, sync_colname, t_jdbcurl, t_username, t_password)
+    dburl = s_jdbcurl.split('@')[-1]
+    filename = f'{t_jdbcurl.split('/')[-1]}_{t_tablename}'
 
-def distribute():
-    global filename
-    conn = pymysql.connect(host="192.168.144.148", user="root", password="IkE==3rB;P5", database="cetl")
-    cursor = conn.cursor()
-    cursor.execute("select group_id, dbname,tablename,ttablename,tjdbc,sync_type,incr_col,incr_col_type,tdbdesc from t_job2 where status=0")
-    results = cursor.fetchall()
-    cursor.close()
-    conn.close()
-
-    for row in results:
-        # t_dbname = row[8]
-        t_tablename = row[3]
-        s_tablename = row[2]
-        sjdbc = '192.168.146.164/uf'
-        s_username = row[1]
-        s_password = 'oracle'
-        sync_type = row[5]
-        sync_colname = row[6]
-        incr_col_type=row[7]
-        tdbdesc=row[8]
-        t_username = 'rdmetl'
-        t_password = 'mysql'
-        s_jdbcurl = f'jdbc:oracle:thin:@{sjdbc}'
-        t_jdbcurl = f'jdbc:mysql://{row[4]}'
-
-        dburl = s_jdbcurl.split('@')[-1]
-        filename = f'{tdbdesc}_{t_tablename}'
-
-        getColumns(s_username, s_password, dburl,s_tablename)
-        create_table(t_tablename, create_column_names)
-        generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename,t_username, t_password, s_columns_list, t_columns_list, sync_type, sync_colname,incr_col_type)
-        if (sync_type == 3):
-            generate_pre_json_file(s_tablename, sync_colname, t_jdbcurl, t_username, t_password)
-            
-#main
-# collect()
-distribute()
+    getColumns(s_username, s_password, dburl)
+    create_table(t_tablename, create_column_names)
+    generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename,t_username, t_password, s_columns_list, t_columns_list, sync_type, sync_colname)
+    if (sync_type == 3):
+        generate_pre_json_file(s_tablename, sync_colname, t_jdbcurl, t_username, t_password)
