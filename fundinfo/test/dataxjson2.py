@@ -97,7 +97,7 @@ def generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl
         preSql.append(preSql_str)
         json_data['job']['content'][0]['writer']['parameter']['preSql'] = preSql
     # 按天
-    elif (sync_type == 2):
+    elif (sync_type in (2,4)):
         if incr_col_type in (1,2):
             json_data['job']['content'][0]['reader']['parameter']['where'] = f"{sync_colname} between to_date('${{start_date}}','yyyymmdd') and to_date('${{end_date}}','yyyymmdd')"
         elif incr_col_type in (3,4):
@@ -146,9 +146,9 @@ def generate_pre_json_file(table_name, column_name, t_jdbcurl, t_username, t_pas
 
 def collect():
     global filename
-    conn = pymysql.connect(host="192.168.144.148", user="root", password="IkE==3rB;P5", database="cetl")
+    conn = pymysql.connect(host="192.168.144.141", user="root", password="IkE==3rB;P5", database="cetl")
     cursor = conn.cursor()
-    cursor.execute("select group_id,dbname,tablename,stablename,sjdbc,susername,spassword,sync_type,incr_col,incr_col_type from t_job where status=0")
+    cursor.execute("select group_id,dbname,tablename,stablename,sjdbc,susername,spassword,sync_type,incr_col,incr_col_type from t_job where status=0 and tablename='QT_IndexQuote'")
     results = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -166,7 +166,7 @@ def collect():
         t_username = 'rdmetl'
         t_password = 'mysql'
         s_jdbcurl = f'jdbc:oracle:thin:@{sjdbc}'
-        t_jdbcurl = f'jdbc:mysql://192.168.144.148/{t_dbname}'
+        t_jdbcurl = f'jdbc:mysql://192.168.144.141/{t_dbname}'
 
         dburl = s_jdbcurl.split('@')[-1]
         filename = f'{t_jdbcurl.split('/')[-1]}_{t_tablename}'
@@ -179,7 +179,7 @@ def collect():
 
 def distribute():
     global filename
-    conn = pymysql.connect(host="192.168.144.148", user="root", password="IkE==3rB;P5", database="cetl")
+    conn = pymysql.connect(host="192.168.144.141", user="root", password="IkE==3rB;P5", database="cetl")
     cursor = conn.cursor()
     cursor.execute("select group_id, dbname,tablename,ttablename,tjdbc,sync_type,incr_col,incr_col_type,tdbdesc from t_job2 where status=0")
     results = cursor.fetchall()

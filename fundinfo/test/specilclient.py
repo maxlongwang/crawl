@@ -1,5 +1,5 @@
 import re
-with open("./test/20240812.sql", "r") as f:
+with open("./test/20240813.log", "r") as f:
     content=f.read()
 
 lines=content.split('\n')
