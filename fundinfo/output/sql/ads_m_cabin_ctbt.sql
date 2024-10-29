@@ -1,1 +1,0 @@
-create table ads_m_cabin_ctbt (init_date int,c_scope varchar(8),main_part varchar(8),idd varchar(64),etl_date date,batch_no decimal(22,4),i_y_zhcs decimal(22,4),i_y_jyj decimal(22,4),i_y_xcsr decimal(22,4),i_y_cpsr decimal(22,4),i_y_jgsr decimal(22,4),i_y_tgsr decimal(22,4),i_y_ibsr decimal(22,4),i_y_lcsr decimal(22,4),i_y_zhcs_lasts decimal(22,4),i_y_lcsr_lasts decimal(22,4))

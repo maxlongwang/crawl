@@ -1,1 +1,0 @@
-create table MF_FundReturnRank (id bigint,innercode int,enddate date,typecode int,typename varchar(200),fundtypecode int,fundtypename varchar(200),indexcycle int,fundreturn decimal(18,9),fundreturnmean decimal(18,9),fundreturnrank varchar(200),inserttime date,updatetime date,jsid bigint,fundannreturn decimal(18,9),fundannreturnmean decimal(18,9))

@@ -1,1 +1,0 @@
-create table MF_FundNetValueRe (id bigint,innercode int,tradingday date,unitnv decimal(18,6),growthratefactor float,unitnvrestored decimal(18,6),nvdailygrowthrate decimal(18,6),nvrdailygrowthrate decimal(18,6),updatetime date,jsid bigint)
