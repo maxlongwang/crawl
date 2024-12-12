@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="gb2312"?>
+
+<Config>		
+	<CERList Name="License" Desv="证书列表">
+		<UserCer Name="CerID100" CerID="B242E37B6FCB47FB" CerMD5="e352efed740b616344b1b7ef9b5e5d01" Desc="证书序列号和证书的MD5"/>
+		<UserCer Name="CerID101" CerID="B242E37B6FCB47FB" CerMD5="e352efed740b616344b1b7ef9b5e5d01" Desc="证书序列号和证书的MD5"/>
+	</CERList>
+</Config>

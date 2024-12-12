@@ -1,0 +1,34 @@
+<Config>
+  <Service Desc="" CompanyID="META" SystemID="META" Name="META">
+    <property Name="Mode" Value="1" Desc="后端服务器的连接模式"/>
+    <property Name="LongConnCount" Value="10" Desc="长连接模式时保持的连接数量(组内每台后端服务器)"/>
+    <property Name="HeartbeatTimeout" Value="1000" Desc="长连接心跳检测超时时间(单位:毫秒,缺省为1秒)"/>
+    <property Name="LBMode" Value="1" Desc="负载均衡模式[0:Random(随机轮询,缺省) 1:Roundrobin(顺序轮询) 2:Backup(主备模式)]"/>
+    <property Name="HeartbeatTime" Value="30" Desc="长连接心跳频率(单位:秒,缺省为30)"/>
+    <property Name="RecvTimeout" Value="30" Desc="接收数据超时(单位:秒 0表示不限制时间, 缺省为0)"/>
+	<Servers Desc="EIF账户" FunctionGroup="790000-790999" BranchIDRange="32100-32199" Name="GROUP_1500">
+      <Server Name="Bp21100" BranchID="21100" ServerName="">
+		<Item Name="Address" Value="172.23.15.87" Desc="服务器IP"/>
+		<Item Name="Port" Value="20000" Desc="服务器服务端口"/>
+		<Item Name="MonPort" Value="20002" Desc="服务器监控端口"/>
+		<Item Name="Login" Value="0" Desc="下级连接站点是否需要登录(连接后端BP服务器)(0:不需要 1:需要 缺省为0)"/>
+		<Item Name="MonLogin" Value="0" Desc="监控是否需要登录(0:不需要 1:需要 缺省为0)"/>
+		<Item Name="UserName" Value="thinkive" Desc="连接下级站点的账号(连接后端BP服务器)"/>
+		<Item Name="Password" Value="thinkive" Desc="连接下级站点的密码(连接后端BP服务器)"/>
+		<Item Name="EncEnable" Value="0" Desc="是否对请求数据转发给后端服务器时加密(0:不加密  1:加密  缺省为0)"/>
+		<Item Name="Key" Value="216E0D565E294060" Desc="与BP之间数据通信密钥,配置与转发到的BP一致(只在EncEnable设置为1时有效)"/>
+	  </Server>
+	  <Server Name="Bp21101" BranchID="21101" ServerName="">
+			<Item Name="Address" Value="172.23.15.88" Desc="服务器IP"/>
+			<Item Name="Port" Value="20000" Desc="服务器服务端口"/>
+			<Item Name="MonPort" Value="20002" Desc="服务器监控端口"/>
+			<Item Name="Login" Value="0" Desc="下级连接站点是否需要登录(连接后端BP服务器)(0:不需要 1:需要 缺省为0)"/>
+			<Item Name="MonLogin" Value="0" Desc="监控是否需要登录(0:不需要 1:需要 缺省为0)"/>
+			<Item Name="UserName" Value="thinkive" Desc="连接下级站点的账号(连接后端BP服务器)"/>
+			<Item Name="Password" Value="thinkive" Desc="连接下级站点的密码(连接后端BP服务器)"/>
+			<Item Name="EncEnable" Value="0" Desc="是否对请求数据转发给后端服务器时加密(0:不加密  1:加密  缺省为0)"/>
+			<Item Name="Key" Value="216E0D565E294060" Desc="与BP之间数据通信密钥,配置与转发到的BP一致(只在EncEnable设置为1时有效)"/>
+	  </Server>
+    </Servers>
+  </Service>
+ </Config>

@@ -264,13 +264,14 @@ def distribute(name):
         if dbtype=='oracle':
             getColumns(s_username,etl_user ,etl_password, dburl,s_tablename)
             if name=='test':
-                create_table(t_tablename, create_column_names)
+                create_table(s_username, t_tablename, create_column_names)
         
         generate_json_file(s_jdbcurl, s_tablename, s_username, s_password, t_jdbcurl, t_tablename,t_username, t_password, s_columns_list, t_columns_list, sync_type, sync_colname,incr_col_type,etl_user,etl_password,name)
         if (sync_type == 3):
             generate_pre_json_file(s_tablename, sync_colname, t_jdbcurl, t_username, t_password)
 
 #main
-collect('test')
+# collect('test')
 # collect('product')
-# distribute('product')
+distribute('product')
+# distribute('test')

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Config>
+	<Log Name="logAttrs" Desc="描述日志保存策略,category和recordFuncID可能有冲突，先匹配category后再来匹配recordFuncID">
+		<Property Name="category" Value="1" DESC="保存log的类别,1:BUSREQ;2:LOGIN;4:AUTH;8:EXCEPTION;16:RUNTIME;32:DBCONN;64:SOCKETCONNPOOL" />
+		<Property Name="path" Value="" DESC="日志保存路径"/>
+		<Property Name="flushTimeInterval" Value="60" DESC="强制写入时间间隔，单位为秒"/>
+		<Property Name="flushSizeInterval" Value="1024" DESC="强制写入大小，单位为Kbytes"/>
+		<Property Name="closeTimeInterval" Value="43200" DESC="关闭当前文件，生成新文件。时间间隔，单位为秒"/>
+		<Property Name="closeSizeInterval" Value="1024" DESC="关闭当前文件，生成新文件。大小间隔，单位为M"/>
+		<Property Name="recordFuncID" Value="720002" DESC="记录功能号日志"/>
+		<Property Name="reserveday" Value="7" DESC="日志保留时间，单位天"/>
+	</Log>
+</Config>
+

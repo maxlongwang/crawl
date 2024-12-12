@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="gb2312"?>
+
+<Config>
+	<Server Name="Server" Desc="服务器配置相关信息">
+		<Property Name="BranchID" Value="21000" Desc="服务器站点ID"/>
+		<Property Name="ServerType" Value="1" Desc="服务器类型(1:接入BR,2:转发BR)"/>
+		<Property Name="ServerName" Value="高财生app接入BR" Desc="BR服务器名称"/>
+		<Property Name="ListenPort" Value="12251" Desc="服务器监听端口号"/>
+		<Property Name="HttpMonitorPort" Value="10001" Desc="服务器状态监控端口号(HTTP)"/>
+		<Property Name="MaxConnNum" Value="50000" Desc="最大允许连接数"/>
+		<Property Name="SubReactorSize" Value="30" Desc="子反应器数量(保持与CPU核数一致)"/>
+		<Property Name="VerifyMode" Value="2" Desc="(认证模式:1连接认证;2双向认证)接入BR必须双向认证,转发BR必须连接认证"/>
+		<Property Name="VerifyTimeout" Value="20" Desc="连接认证超时时间(单位:秒,缺省为20秒)"/>
+		<Property Name="ClientTimeout" Value="60" Desc="接收客户数据超时时间([作为接入BR]单位:秒,缺省1分钟,[作为转发BR]单位:分,缺省为0,表示无限制)"/>
+		<Property Name="LogLevel" Value="WARN" Desc="日志记录的级别,不区分大小写(ALL<DEBUG<INFO<WARN<ERROR<FATAL<OFF),缺省记录全部"/>
+		<Property Name="DeleteLogDays" Value="10" Desc="删除多少天之前的日志(缺省为10天,0表示不删除)"/>
+		<Property Name="DelayWarningTime" Value="500" Desc="配置如果单笔请求响应时间超过多长时间会写WARN报警(单位ms,缺省为1s,0表示所有请求处理都打印)"/>
+		<Property Name="DetectionFlag" Value="1" Desc="(1:侦测,0:不侦测,缺省为1)发送业务请求包之前,是否发送侦测包"/>
+		<Property Name="FuncControlFlag" Value="1" Desc="(1:功能号控制,0:不控制,缺省为0)处理业务请求是否根据funcconfig.xml配置去处理"/>
+		<Property Name="Login" Value="0" Desc="[作为转发BR有效]上级连接站点是否需要登录(0:不需要 1:需要 缺省为0),配置为1,则需要连接认证,会读取userlist.xml文件"/>
+		<Property Name="EncEnable" Value="0" Desc="[作为转发BR有效]是否对下级响应数据进行加密返回给上级(0:不加密  1:加密  缺省为0)"/>
+		<Property Name="Key" Value="216E0D565E294060" Desc="[作为转发BR有效]对上级请求数据解密,以及对下级响应数据进行加密返回给上级"/>
+	</Server>
+	
+	<Monitor Name="Monitor" Desc="监控信息相关配置">
+		<Property Name="ListenPort" Value="10002" Desc="监控端口"/>
+		<Property Name="OpenLog" Value="0" Desc="是否开启监控日志"/>    
+		<Property Name="MaxConnNum" Value="1000" Desc="监控允许最大连接数(默认为1000)"/>
+		<Property Name="Login" Value="0" Desc="是否需要登录(0:不需要 1:需要 缺省为0),配置为1,则需要连接认证,会读取userlist.xml文件"/>
+	</Monitor>	
+</Config>	

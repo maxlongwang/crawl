@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="gbk2312"?>
+
+<Config>
+	<UserList Name="Users" Desc="�û��˻��б�,ֻ����Ϊת��BRʱ�����BR����">
+		<Property Name="User01" UserName="thinkive" Password="thinkive" />
+		<Property Name="User02" UserName="yangxinwen" Password="yangxinwen"/>
+	</UserList>
+</Config>
+

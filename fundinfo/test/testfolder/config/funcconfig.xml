@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="gb2312"?>
+
+<Config>
+	<Service Name="TFZQ" CompanyID="TFZQ" SystemID="TFZQ" SwitchFlag="1" Desc="综合后台,SwitchFlag:功能号处理开关标志,NeedLogin:1表示必须登录功能号列表;NeedLogin:0表示必须免功能号列表">
+		<FuncRange SmallSysID="1" LoginFunc="0" Desc="CIF系统">
+			<Property Name="FuncRange1" Value="1-9999999" NeedLogin="0" Desc="模块1"/>
+		</FuncRange>
+	</Service>
+</Config>
