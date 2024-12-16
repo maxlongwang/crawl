@@ -28,6 +28,7 @@ def extract_data_from_oracle():
     oracle_cursor.execute("SELECT * FROM casset.ads_tag_asset_model ")
     rows = oracle_cursor.fetchall()
 
+
     # 获取列名
     column_names = [desc[0] for desc in oracle_cursor.description]
 
