@@ -271,7 +271,7 @@ def distribute(name):
             generate_pre_json_file(s_tablename, sync_colname, t_jdbcurl, t_username, t_password)
 
 #main
-# collect('test')
+collect('test')
 # collect('product')
-distribute('product')
+# distribute('product')
 # distribute('test')

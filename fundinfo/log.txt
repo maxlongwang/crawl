@@ -1,0 +1,2 @@
+2024-12-26 09:54:48,962 - root - DEBUG - debug, call test_func1, arg:(), kwargs:{'a': 11}-inner_func2
+2024-12-26 09:54:48,962 - root - DEBUG - debug, call test_func3, arg:(), kwargs:{'a': 111}-inner_func2

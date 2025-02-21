@@ -1,2 +1,0 @@
-﻿s_table_name,s_jdbcurl,s_username,s_password,t_tablename,t_jdbcurl,t_username,t_password
-prodcode,jdbc:oracle:thin:@192.168.146.164/uf,ct11,oracle,prodcode,jdbc:mysql://192.168.144.222:3306/cactivity,root,IkE==3rB;P5
