@@ -12,8 +12,6 @@ TORTOISE_ORM = {
                 'maxsize': 5,
                 'charset': 'utf8mb4',
                 'echo': True
-
-
             }
         },
     },
@@ -21,7 +19,6 @@ TORTOISE_ORM = {
         'models': {
             'models': ['models', 'aerich.models'],
             'default_connection': 'default',
-
         }
     },
     'use_tz': False,

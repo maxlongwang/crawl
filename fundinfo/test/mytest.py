@@ -1,9 +1,99 @@
-import asyncio
+import datetime
+print(datetime.datetime.now())
 
-async def task(i):
-    print(i)
-    
-task(1)
+
+
+# import datetime
+
+# # 假设这是一个时间戳（单位：秒）
+# timestamp = 1741936356212/1000
+
+# # 将时间戳转换为 datetime 对象
+# dt_object = datetime.datetime.fromtimestamp(timestamp)
+
+# # 格式化输出时间
+# formatted_time = dt_object.strftime("%Y-%m-%d %H:%M:%S")
+# print(f"时间戳 {timestamp} 转换后的时间是: {formatted_time}")
+
+
+
+# s =''
+# for i in range(4000):
+#     s=s + f'c{i} varchar(1),'
+#     if i%5 ==0:
+#         print(s)
+#         s=''
+
+# d = {}
+
+
+# def f():
+#     d["a"] = 1
+
+
+# f()
+# print(d)
+# print(type(d))
+
+# def gen(num):
+#     while num>0:
+#         yield num
+#         num-=1
+#     return
+# g=gen(5)
+
+# for i in g:
+#     print(i)
+
+
+# import asyncio
+# import time
+
+
+# async def a():
+#     print("welcome a!")
+#     await asyncio.sleep(1)
+#     print('welcome back a!')
+
+
+# async def b():
+#     print("welcome b!")
+#     await asyncio.sleep(2)
+#     print('welcome back b!')
+
+
+# async def main():
+#     task1 = asyncio.create_task(a())
+#     task2 = asyncio.create_task(b())
+#     await task1
+#     await task2
+
+# if __name__ == "__main__":
+#     start = time.perf_counter()
+#     asyncio.run(main())
+#     print('cost time {} s'.format(time.perf_counter()-start))
+
+
+# import numpy as np
+# import pandas as pd
+
+# # 使用numpy生成一个随机数组
+# data = np.random.rand(5, 3)
+# print(data)
+
+# # 将numpy数组转换为pandas DataFrame
+# df = pd.DataFrame(data, columns=['A', 'B', 'C'])
+
+# # 使用pandas进行数据分析
+# print(df.describe())  # 输出数据的统计信息
+
+
+# import asyncio
+
+# async def task(i):
+#     print(i)
+
+# task(1)
 
 # from queue import Queue
 # from threading import Thread
@@ -11,16 +101,16 @@ task(1)
 
 # class ClosableQueue(Queue):
 #     SENTINEL=object()
-    
+
 #     def close(self):
 #         self.put(self.SENTINEL)
-    
+
 #     def __iter__(self):
 #         while True:
 #             item=self.get()
 #             try:
 #                 if item is self.SENTINEL:
-#                     return 
+#                     return
 #                 yield item
 #             finally:
 #                 self.task_done()
@@ -31,11 +121,11 @@ task(1)
 #         self.func=func
 #         self.in_queue=in_queue
 #         self.out_queue=out_queue
-    
+
 #     def run(self):
 #         for item in self.in_queue:
 #             result=self.func(item)
-#             self.out_queue.put(result)    
+#             self.out_queue.put(result)
 
 
 # download_queue=ClosableQueue()
@@ -45,7 +135,7 @@ task(1)
 # threads=[StoppableWorker(download,download_queue,resize_queue),
 #          StoppableWorker(resize,resize_queue,upload_queue),
 #          StoppableWorker(upload,upload_queue,done_queue),
-#          ]                        
+#          ]
 
 # for thread in threads:
 #     thread.start()
@@ -62,7 +152,7 @@ task(1)
 
 # for thread in threads:
 #     thread.join()
-    
+
 
 # my_queue=Queue(1)
 # def consumer():
@@ -83,7 +173,6 @@ task(1)
 # print('Producer put 2')
 # print('Producer done')
 # thread.join()
-
 
 
 # from threading import Thread
