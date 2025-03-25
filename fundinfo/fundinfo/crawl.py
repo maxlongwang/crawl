@@ -14,7 +14,9 @@ print(get_project_settings())
 # process.crawl('secucollectasset')
 # process.crawl('pdftest1')
 # process.crawl('pandamusic')
-process.crawl('pandamusicdy')
+# process.crawl('pandamusicdy')
+process.crawl('pandamusicrd2')
+
 
 process.start()
 
